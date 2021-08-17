@@ -1,0 +1,8 @@
+  // const [addFormData, setAddFormData] = useState({
+  //   fullname: "",
+  //   address: "",
+  //   phonenumber: "",
+  //   email: "",
+  // })
+
+  removed separate fields, just blank object

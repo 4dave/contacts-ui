@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const EditableRow = ({
   editFormData,
@@ -54,7 +54,7 @@ const EditableRow = ({
         </button>
       </td>
     </tr>
-  );
-};
+  )
+}
 
-export default EditableRow;
+export default EditableRow

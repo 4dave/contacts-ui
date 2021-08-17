@@ -1,26 +1,87 @@
-import React, { useState, Fragment } from "react"
+import React, { useState, useEffect } from "react"
 import { nanoid } from "nanoid"
+import axios from "axios"
 import "./App.css"
 import ReadOnlyRow from "./components/ReadOnlyRow"
 import EditableRow from "./components/EditableRow"
 
 const App = () => {
-  const [contacts, setContacts] = useState(data)
-  const [addFormData, setAddFormData] = useState({
-    fullName: "",
-    address: "",
-    phoneNumber: "",
-    email: "",
-  })
+  const [contacts, setContacts] = useState([])
+  const [editContactId, setEditContactId] = useState(null)
+  // const [addFormData, setAddFormData] = useState({
+  //   fullname: "",
+  //   address: "",
+  //   phonenumber: "",
+  //   email: "",
+  // })
+  const [addFormData, setAddFormData] = useState({})
 
   const [editFormData, setEditFormData] = useState({
-    fullName: "",
+    fullname: "",
     address: "",
-    phoneNumber: "",
+    phonenumber: "",
     email: "",
   })
 
-  const [editContactId, setEditContactId] = useState(null)
+  const getContacts = async () => {
+    const response = await axios.get("http://localhost:8000/api/v1/contacts")
+    setContacts(response.data)
+  }
+
+  useEffect(() => {
+    getContacts()
+  }, [])
+
+  function onAddContact(e) {
+    e.preventDefault()
+    axios
+      .post("http://localhost:8000/api/v1/contact", addFormData)
+      .then(() => {
+        getContacts()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  // Delete contact
+  const deleteContact = async (id) => {
+    try {
+      const response = await axios.delete(`/api/contacts/${id}`)
+      setContacts(contacts.filter((contact) => contact.id !== id))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // Update contact
+  const updateContact = async (id, contact) => {
+    try {
+      const response = await axios.put(`/api/contacts/${id}`, contact)
+      setContacts(
+        contacts.map((contact) => {
+          if (contact.id === id) {
+            return response.data
+          }
+          return contact
+        })
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // function onEditContact(contact) {
+  //   axios
+  //     .put(`http://localhost:8000/api/v1/contacts/${contact.id}`, contact)
+  //     .then((response) => {
+  //       setContacts(contacts.map((c) => {
+  //         if (c.id === contact.id) {
+  //           return contact
+  //         }
+  //         return c
+  //       }))
+  //     })
+  // }
 
   const handleAddFormChange = (event) => {
     event.preventDefault()
@@ -50,10 +111,9 @@ const App = () => {
     event.preventDefault()
 
     const newContact = {
-      id: nanoid(),
-      fullName: addFormData.fullName,
+      fullname: addFormData.fullname,
       address: addFormData.address,
-      phoneNumber: addFormData.phoneNumber,
+      phonenumber: addFormData.phonenumber,
       email: addFormData.email,
     }
 
@@ -66,9 +126,9 @@ const App = () => {
 
     const editedContact = {
       id: editContactId,
-      fullName: editFormData.fullName,
+      fullname: editFormData.fullname,
       address: editFormData.address,
-      phoneNumber: editFormData.phoneNumber,
+      phonenumber: editFormData.phonenumber,
       email: editFormData.email,
     }
 
@@ -87,9 +147,9 @@ const App = () => {
     setEditContactId(contact.id)
 
     const formValues = {
-      fullName: contact.fullName,
+      fullname: contact.fullname,
       address: contact.address,
-      phoneNumber: contact.phoneNumber,
+      phonenumber: contact.phonenumber,
       email: contact.email,
     }
 
@@ -124,8 +184,8 @@ const App = () => {
             </tr>
           </thead>
           <tbody>
-            {contacts.map((contact) => (
-              <Fragment>
+            {contacts.map((contact, index) => (
+              <React.Fragment key={index}>
                 {editContactId === contact.id ? (
                   <EditableRow
                     editFormData={editFormData}
@@ -139,17 +199,18 @@ const App = () => {
                     handleDeleteClick={handleDeleteClick}
                   />
                 )}
-              </Fragment>
+              </React.Fragment>
             ))}
           </tbody>
         </table>
       </form>
 
       <h2>Add a Contact</h2>
-      <form onSubmit={handleAddFormSubmit}>
+      {/* handleAddFormSubmit => onAddContact */}
+      <form onSubmit={onAddContact}>
         <input
           type="text"
-          name="fullName"
+          name="fullname"
           required="required"
           placeholder="Enter a name..."
           onChange={handleAddFormChange}
@@ -163,7 +224,7 @@ const App = () => {
         />
         <input
           type="text"
-          name="phoneNumber"
+          name="phonenumber"
           required="required"
           placeholder="Enter a phone number..."
           onChange={handleAddFormChange}
