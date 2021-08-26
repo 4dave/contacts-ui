@@ -21,6 +21,7 @@ const App = () => {
 
   const createContact = (e) => {
     e.preventDefault()
+    e.target.reset()
     axios
       .post("http://localhost:8000/api/v1/contact", addFormData)
       .then(() => {
@@ -145,28 +146,29 @@ const App = () => {
           type="text"
           name="fullname"
           required="required"
-          placeholder="Enter a name..."
+          placeholder="name"
+          autoFocus="autofocus"
           onChange={handleAddFormChange}
         />
         <input
           type="text"
           name="address"
           required="required"
-          placeholder="Enter an addres..."
+          placeholder="address"
           onChange={handleAddFormChange}
         />
         <input
           type="text"
           name="phonenumber"
           required="required"
-          placeholder="Enter a phone number..."
+          placeholder="phone"
           onChange={handleAddFormChange}
         />
         <input
           type="email"
           name="email"
           required="required"
-          placeholder="Enter an email..."
+          placeholder="email"
           onChange={handleAddFormChange}
         />
         <button type="submit">Add</button>
