@@ -15,15 +15,16 @@ const App = () => {
   }, [])
 
   const getContacts = async () => {
-    const response = await axios.get("http://localhost:8000/api/v1/contacts")
+    const response = await axios.get("http://localhost:8000/contacts")
     setContacts(response.data)
+    console.log(response.data)
   }
 
   const createContact = (e) => {
     e.preventDefault()
     e.target.reset()
     axios
-      .post("http://localhost:8000/api/v1/contact", addFormData)
+      .post("http://localhost:8000/contact", addFormData)
       .then(() => {
         getContacts()
       })
@@ -34,7 +35,7 @@ const App = () => {
 
   const deleteContact = (id) => {
     axios
-      .delete(`http://localhost:8000/api/v1/contact/${id}`)
+      .delete(`http://localhost:8000/contact/${id}`)
       .then(() => {
         getContacts()
       })
@@ -45,7 +46,7 @@ const App = () => {
 
   const updateContact = (id) => {
     axios
-      .put(`http://localhost:8000/api/v1/contact/${id}`, editFormData)
+      .put(`http://localhost:8000/contact/${id}`, editFormData)
       .then(() => {
         getContacts()
       })
@@ -90,7 +91,7 @@ const App = () => {
   }
 
   const handleEditClick = (contact) => {
-    setEditContactId(contact.ID)
+    setEditContactId(contact.id)
     const formValues = {
       fullname: contact.fullname,
       address: contact.address,
@@ -121,7 +122,7 @@ const App = () => {
           <tbody>
             {contacts.map((contact, index) => (
               <React.Fragment key={index}>
-                {editContactId === contact.ID ? (
+                {editContactId === contact.id ? (
                   <EditableRow
                     editFormData={editFormData}
                     handleEditFormChange={handleEditFormChange}
@@ -139,7 +140,6 @@ const App = () => {
           </tbody>
         </table>
       </form>
-
       <h2>Add a Contact</h2>
       <form onSubmit={createContact}>
         <input
@@ -173,6 +173,7 @@ const App = () => {
         />
         <button type="submit">Add</button>
       </form>
+      🥷 edit/update not working yet
     </div>
   )
 }
