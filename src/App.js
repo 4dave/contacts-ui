@@ -15,7 +15,7 @@ const App = () => {
   }, [])
 
   const getContacts = async () => {
-    const response = await axios.get("http://localhost:8000/contacts")
+    const response = await axios.get("http://192.168.86.30:8000/contacts")
     setContacts(response.data)
     console.log(response.data)
   }
@@ -24,7 +24,7 @@ const App = () => {
     e.preventDefault()
     e.target.reset()
     axios
-      .post("http://localhost:8000/contact", addFormData)
+      .post("http://192.168.86.30:8000/contact", addFormData)
       .then(() => {
         getContacts()
       })
@@ -35,7 +35,7 @@ const App = () => {
 
   const deleteContact = (id) => {
     axios
-      .delete(`http://localhost:8000/contact/${id}`)
+      .delete(`http://192.168.86.30:8000/contact/${id}`)
       .then(() => {
         getContacts()
       })
@@ -46,7 +46,7 @@ const App = () => {
 
   const updateContact = (id) => {
     axios
-      .put(`http://localhost:8000/contact/${id}`, editFormData)
+      .put(`http://192.168.86.30:8000/contact/${id}`, editFormData)
       .then(() => {
         getContacts()
       })
@@ -141,7 +141,7 @@ const App = () => {
         </table>
       </form>
       <h2>Add a Contact</h2>
-      <form onSubmit={createContact}>
+      <form onSubmit={createContact} className="create">
         <input
           type="text"
           name="fullname"
@@ -173,7 +173,6 @@ const App = () => {
         />
         <button type="submit">Add</button>
       </form>
-      🥷 edit/update not working yet
     </div>
   )
 }

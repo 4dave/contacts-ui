@@ -28,7 +28,15 @@ td {
 
 form {
   display: flex;
+  flex-direction: column;
+  align-content: space-around;
   gap: 5px;
+}
+
+.create {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
 }
 
 form td:last-child {
@@ -37,12 +45,13 @@ form td:last-child {
 }
 
 form * {
-  font-size: 22px;
+  font-size: 1rem;
+  /* font-size: 18px; */
 }
 
 button {
-  font-size: 22px;
-  padding: 10px;
+  font-size: 1rem;
+  padding: 5px;
   border: none;
   border-radius: 5px;
   background-color: rgb(40, 38, 37);
