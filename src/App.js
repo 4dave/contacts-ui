@@ -15,7 +15,9 @@ const App = () => {
   }, [])
 
   const getContacts = async () => {
-    const response = await axios.get("http://192.168.86.30:8000/contacts")
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_HOSTNAME}/contacts`
+    )
     setContacts(response.data)
     console.log(response.data)
   }
@@ -24,7 +26,7 @@ const App = () => {
     e.preventDefault()
     e.target.reset()
     axios
-      .post("http://192.168.86.30:8000/contact", addFormData)
+      .post(`${process.env.REACT_APP_API_HOSTNAME}/contact`, addFormData)
       .then(() => {
         getContacts()
       })
@@ -35,7 +37,7 @@ const App = () => {
 
   const deleteContact = (id) => {
     axios
-      .delete(`http://192.168.86.30:8000/contact/${id}`)
+      .delete(`${process.env.REACT_APP_API_HOSTNAME}/contact/${id}`)
       .then(() => {
         getContacts()
       })
@@ -46,7 +48,7 @@ const App = () => {
 
   const updateContact = (id) => {
     axios
-      .put(`http://192.168.86.30:8000/contact/${id}`, editFormData)
+      .put(`${process.env.REACT_APP_API_HOSTNAME}/contact/${id}`, editFormData)
       .then(() => {
         getContacts()
       })
