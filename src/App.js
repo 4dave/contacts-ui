@@ -110,6 +110,7 @@ const App = () => {
 
   return (
     <div className="app-container">
+      <h1>Contacts</h1>
       <form onSubmit={handleEditFormSubmit}>
         <table>
           <thead>
