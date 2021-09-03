@@ -30,13 +30,7 @@ form {
   display: flex;
   flex-direction: column;
   align-content: space-around;
-  gap: 5px;
-}
-
-.create {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
+  gap: 10px;
 }
 
 form td:last-child {
@@ -57,4 +51,56 @@ button {
   background-color: rgb(40, 38, 37);
   color: #ffffff;
   cursor: pointer;
+}
+
+/* Testing */
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+  /* Force table to not be like tables anymore */
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+    border-radius: 5px;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    border-bottom: .25em solid rgb(117, 201, 250);
+  }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    position: relative;
+    /* padding-left: 50%; */
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  input {
+    width: 90%;
+  }
+
 }

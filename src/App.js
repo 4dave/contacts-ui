@@ -9,15 +9,18 @@ const App = () => {
   const [editContactId, setEditContactId] = useState(null)
   const [addFormData, setAddFormData] = useState({})
   const [editFormData, setEditFormData] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     getContacts()
   }, [])
 
   const getContacts = async () => {
+    setIsLoading(true)
     const response = await axios.get(
       `${process.env.REACT_APP_API_HOSTNAME}/contacts`
     )
+    setIsLoading(false)
     setContacts(response.data)
     console.log(response.data)
   }
@@ -122,6 +125,12 @@ const App = () => {
               <th>Actions</th>
             </tr>
           </thead>
+          {isLoading && (
+            <>
+              <span>Loading...</span>
+              <img src="loading.gif" alt="loading" />
+            </>
+          )}
           <tbody>
             {contacts.map((contact, index) => (
               <React.Fragment key={index}>
@@ -144,7 +153,7 @@ const App = () => {
         </table>
       </form>
       <h2>Add a Contact</h2>
-      <form onSubmit={createContact} className="create">
+      <form onSubmit={createContact}>
         <input
           type="text"
           name="fullname"
@@ -174,7 +183,9 @@ const App = () => {
           placeholder="email"
           onChange={handleAddFormChange}
         />
-        <button type="submit">Add</button>
+        <button style={{ width: "3rem" }} type="submit">
+          Add
+        </button>
       </form>
     </div>
   )
