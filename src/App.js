@@ -3,6 +3,7 @@ import axios from "axios"
 import "./App.css"
 import ReadOnlyRow from "./components/ReadOnlyRow"
 import EditableRow from "./components/EditableRow"
+// import GoogleLogin from "react-google-login"
 
 const App = () => {
   const [contacts, setContacts] = useState([])
@@ -153,7 +154,7 @@ const App = () => {
         </table>
       </form>
       <h2>Add a Contact</h2>
-      <form onSubmit={createContact}>
+      <form onSubmit={createContact} autoComplete="off">
         <input
           type="text"
           name="fullname"
